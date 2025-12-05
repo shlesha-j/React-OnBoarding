@@ -21,3 +21,4 @@ export const verifyOtp = async (sessionId, otp) => {
     const data = await response.json();
     return data.Status === "Success";
 };
+

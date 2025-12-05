@@ -48,6 +48,8 @@ const LoginForm = ({ onOtpSent }) => {
         />
         {errors.phone && <p className="error">{errors.phone.message}</p>}
       </div>
+      
+      
       <button type="submit">Send OTP</button>
     </form>
   );

@@ -1,8 +1,12 @@
 import React from "react";
-import UserDetailsForm from "../components/UserDetailsForm";
+import UserDetailsForm from "../components/userDetailsForm/UserDetailsForm";
 
 const UserDetails = () => {
-    return <UserDetailsForm />;
+    return (
+        <div className="container">
+            <UserDetailsForm />
+        </div>
+    )
 };
 
 export default UserDetails;
