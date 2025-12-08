@@ -41,6 +41,13 @@ form .form-grp input{
     color: black;
     width: 90%;
 }
+form .form-grp select{
+    padding: 10px;
+     background-color: white;
+    border: 1px solid grey;
+    border-radius: 10px;
+    color: black;
+}
 .gender-form-grp .radio-grp{
     display: flex;
     align-items: center;
@@ -53,4 +60,7 @@ form .form-grp input{
 }
 .error {
     color: red;
+}
+.LoginForm{
+    width: 400px;
 }

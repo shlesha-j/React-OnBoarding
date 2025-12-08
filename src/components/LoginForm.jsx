@@ -24,7 +24,7 @@ const LoginForm = ({ onOtpSent }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} className="LoginForm">
       <div className="form-grp">
         <label>UserName :</label>
         <input

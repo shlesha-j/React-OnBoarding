@@ -1,13 +1,30 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import "../userDetailsForm/userDetailsForm.css"
+import { replace, useNavigate } from 'react-router-dom';
+
+
 function UserDetailsForm() {
   const { register, handleSubmit, formState: { errors }, reset, watch } = useForm({ mode: "onChange", });
-  const onSubmit = (data) => {
-    console.log("User Data submitted:", data)
-  }
+
+  // const onSave = (data) => {
+  //   console.log("data saved")
+  // }
+  const navigate = useNavigate();
+
+  // const onSave = () => {
+  //   const data = watch(); // get current form values
+  //   localStorage.setItem("userDetails", JSON.stringify(data));
+  //   alert("Data Saved!");
+  // };
+  // const onNext = () => {
+  //   const data = watch();
+  //   localStorage.setItem("userDetails", JSON.stringify(data));
+  //   navigate("/next-page"); 
+  // };
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onClick={handleSubmit}>
       <fieldset>
         <legend>Personal Data:</legend>
         <div className="form-grp">
@@ -170,8 +187,73 @@ function UserDetailsForm() {
           {errors.NomMobile && (<p className='error'>{errors.NomMobile.message}</p>)}
         </div>
       </fieldset>
-      <button type='submit'>Upload Doc</button>
-            
+      <fieldset>
+        <legend>Bank Details</legend>
+        <div className="form-grp">
+          <div className="label-wrap">
+            <label>Account Number</label>
+            <sup>*</sup>
+          </div>
+          <input
+            type="text"
+            maxLength={18}
+            {...register("accNum", {
+              required: "Account Number required",
+              pattern: {
+                value: /^[0-9]{9,18}$/,
+                message: "Enter a valid 18-digit account number"
+              }
+            })}
+            onInput={(e) => {
+              e.target.value = e.target.value.replace(/\D/g, "");
+            }} />
+          {errors.accNum && (<p className='error'>{errors.accNum.message}</p>)}
+        </div>
+        <div className="form-grp">
+          <div className="label-wrap">
+            <label>Branch Name</label>
+            <sup>*</sup>
+          </div>
+          <input type="text"
+            {...register("branch", {
+              required: "Branch Name required",
+            })} />
+          {errors.branch && (<p className='error'>{errors.branch.message}</p>)}
+        </div>
+        <div className="form-grp">
+          <div className="label-wrap">
+            <label>IFSC Code</label>
+            <sup>*</sup>
+          </div>
+          <input
+            type="text"
+            maxLength={11}
+            {...register("ifsc", {
+              required: "IFSC Code required",
+              pattern: {
+                value: /^[A-Z]{4}0[A-Z0-9]{6}$/,
+                message: "Enter a valid IFSC Code"
+              }
+            })}
+            onInput={(e) => {
+              e.target.value = e.target.value
+                .toUpperCase()
+                .replace(/[^A-Za-z0-9]/g, "")
+            }}
+          />
+          {errors.ifsc && (<p className='error'>{errors.ifsc.message}</p>)}
+        </div>
+      </fieldset>
+      <button type='button' onClick={handleSubmit(() => {
+        const data = watch();
+        localStorage.setItem("userDetails", JSON.stringify(data));
+        alert("Data Saved!")
+      })}>Save</button>
+      <button type='button' onClick={handleSubmit(() => {
+        const data = watch();
+        localStorage.setItem("userDetails", JSON.stringify(data));
+        navigate("/upload-docs")
+      })}>Next</button>
     </form>
   )
 }

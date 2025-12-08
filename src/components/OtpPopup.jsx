@@ -18,8 +18,7 @@ const OtpPopup = ({ phone, sessionId, onSuccess }) => {
       <input
         value={otp}
         maxLength={6}
-        onChange={(e) => setOtp(e.target.value)}
-      />
+        onChange={(e) => setOtp(e.target.value)}/>
 
       <button onClick={handleVerify}>Verify OTP</button>
       {error && <p>{error}</p>}
