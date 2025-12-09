@@ -14,9 +14,10 @@ form .form-grp{
     margin-bottom: 20px;
 }
 form fieldset{
-    border: 1px solid black;
+    /* border: 1px solid black; */
     text-align: left;
     margin-bottom: 20px;
+    padding: 10px;
 }
 form fieldset legend{
     color: black;
@@ -33,13 +34,25 @@ form fieldset legend{
 form .form-grp label{
     color: black;
 }
-form .form-grp input{
+/* form .form-grp input{
     padding: 10px;
     background-color: white;
     border: 1px solid grey;
     border-radius: 10px;
     color: black;
     width: 90%;
+} */
+
+input{
+    width: 100%;
+    border-radius: 6px;
+    border: 1.5px solid #dee1ea;
+    padding: 12px 20px;
+    color: black;
+}
+
+input:focus{
+    border-color: #506cff;
 }
 form .form-grp select{
     padding: 10px;

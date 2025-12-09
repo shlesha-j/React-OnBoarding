@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { sendOtp } from "../api/otp";
+import { sendOtp } from "../../api/otp";
+import "../LoginForm/LoginForm.css"
 
-const LoginForm = ({ onOtpSent }) => {
+const LoginForm = ({ onOtpSent }) => {  
   const {
     register,
     handleSubmit,

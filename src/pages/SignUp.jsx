@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import LoginForm from "../components/LoginForm";
-import OtpPopup from "../components/OtpPopup";
+import LoginForm from "../components/LoginForm/LoginForm";
+import OtpPopup from "../components/otpPopup/OtpPopup";
 
 const SignUp = () => {
   const [showOtp, setShowOtp] = useState(false);
@@ -18,14 +18,18 @@ const SignUp = () => {
       />
 
       {showOtp && (
-        <OtpPopup
-          phone={phone}
-          sessionId={sessionId}
-          onSuccess={() => {
-            window.location.href = "/user-details";
-          }}
-        />
+        <div className="otp-overlay">
+          <OtpPopup
+            phone={phone}
+            sessionId={sessionId}
+            onSuccess={() => {
+              window.location.href = "/user-details";
+            }}
+            onClose={() => setShowOtp(false)}  
+          />
+        </div>
       )}
+
     </>
   );
 };

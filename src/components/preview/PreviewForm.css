@@ -1,3 +1,72 @@
 p{
     color: black;
 }
+.preview-form-wrap {
+    width: 80%;
+    margin: 20px auto;
+    padding: 25px;
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    font-family: "Segoe UI", sans-serif;
+}
+
+.form-title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 25px;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.section {
+    background: #fafafa;
+    padding: 20px;
+    margin-bottom: 22px;
+    border: 1px solid #e1e1e1;
+    border-radius: 8px;
+}
+
+.section h4 {
+    margin-bottom: 12px;
+    font-size: 18px;
+    color: #34495e;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 6px;
+}
+
+.row {
+    display: flex;
+    gap: 40px;
+}
+
+.section p {
+    margin: 6px 0;
+    line-height: 1.4;
+    text-align: left;
+}
+
+/* .doc-block {
+    margin-top: 15px;
+} */
+
+.user-photo {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border: 1px solid #ccc;
+}
+
+.user-sign {
+    width: 100%;
+    height: 50px;
+    border: 1px solid #ccc;
+    background: #fff;
+}
+.personal-detail-wrap{
+    display: flex;
+}
+.left-side {
+    margin-right: 120px;
+}

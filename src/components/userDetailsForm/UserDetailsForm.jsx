@@ -244,16 +244,18 @@ function UserDetailsForm() {
           {errors.ifsc && (<p className='error'>{errors.ifsc.message}</p>)}
         </div>
       </fieldset>
-      <button type='button' onClick={handleSubmit(() => {
-        const data = watch();
-        localStorage.setItem("userDetails", JSON.stringify(data));
-        alert("Data Saved!")
-      })}>Save</button>
-      <button type='button' onClick={handleSubmit(() => {
-        const data = watch();
-        localStorage.setItem("userDetails", JSON.stringify(data));
-        navigate("/upload-docs")
-      })}>Next</button>
+      <div className="btn-grp">
+        <button type='button' onClick={handleSubmit(() => {
+          const data = watch();
+          localStorage.setItem("userDetails", JSON.stringify(data));
+          alert("Data Saved!")
+        })}>Save</button>
+        <button type='button' onClick={handleSubmit(() => {
+          const data = watch();
+          localStorage.setItem("userDetails", JSON.stringify(data));
+          navigate("/upload-docs")
+        })}>Next</button>
+      </div>
     </form>
   )
 }
