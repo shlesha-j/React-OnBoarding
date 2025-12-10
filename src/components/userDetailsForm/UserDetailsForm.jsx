@@ -5,12 +5,34 @@ import { replace, useNavigate } from 'react-router-dom';
 
 
 function UserDetailsForm() {
-  const { register, handleSubmit, formState: { errors }, reset, watch } = useForm({ mode: "onChange", });
+  // const { register, handleSubmit, formState: { errors }, reset, watch } = useForm({ mode: "onChange", });
 
   // const onSave = (data) => {
   //   console.log("data saved")
   // }
   const navigate = useNavigate();
+
+  const storedUserDetails = JSON.parse(localStorage.getItem("userDetails")) || {};
+
+  const { register, handleSubmit, formState: { errors }, reset, watch } = useForm({
+    mode: "onChange",
+    defaultValues: {
+      mobile: storedUserDetails.phone || "",  // pre-fill mobile number only
+      name: "",       // keep blank
+      email: "",
+      dob: "",
+      gender: "",
+      address: "",
+      nomName: "",
+      relation: "",
+      NomMobile: "",
+      accNum: "",
+      branch: "",
+      ifsc: ""
+    }
+  });
+
+
 
   // const onSave = () => {
   //   const data = watch(); // get current form values
@@ -24,7 +46,7 @@ function UserDetailsForm() {
   // };
 
   return (
-    <form onClick={handleSubmit}>
+    <form >
       <fieldset>
         <legend>Personal Data:</legend>
         <div className="form-grp">
@@ -71,7 +93,7 @@ function UserDetailsForm() {
             <p className='error'>{errors.dob.message}</p>
           )}
         </div>
-        <div className="form-grp gender-form-grp">
+        {/* <div className="form-grp gender-form-grp">
           <div className="label-wrap">
             <label>Gender</label>
             <sup>*</sup>
@@ -84,7 +106,38 @@ function UserDetailsForm() {
             <input type="radio" id='female' />
             <label>Female</label>
           </div>
+        </div> */}
+        <div className="form-grp gender-form-grp">
+          <div className="label-wrap">
+            <label>Gender</label>
+            <sup>*</sup>
+          </div>
+
+          <div className="radio-wrap">
+            <div className="radio-grp">
+              <input
+                type="radio"
+                id="male"
+                value="male"
+                {...register("gender", { required: "Gender is required" })}
+              />
+              <label htmlFor="male">Male</label>
+            </div>
+
+            <div className="radio-grp">
+              <input
+                type="radio"
+                id="female"
+                value="female"
+                {...register("gender", { required: "Gender is required" })}
+              />
+              <label htmlFor="female">Female</label>
+            </div>
+          </div>
+
+          {errors.gender && <p className="error">{errors.gender.message}</p>}
         </div>
+
         <div className="form-grp">
           <div className="label-wrap">
             <label>Address</label>
@@ -245,16 +298,31 @@ function UserDetailsForm() {
         </div>
       </fieldset>
       <div className="btn-grp">
-        <button type='button' onClick={handleSubmit(() => {
-          const data = watch();
-          localStorage.setItem("userDetails", JSON.stringify(data));
-          alert("Data Saved!")
-        })}>Save</button>
-        <button type='button' onClick={handleSubmit(() => {
-          const data = watch();
-          localStorage.setItem("userDetails", JSON.stringify(data));
-          navigate("/upload-docs")
-        })}>Next</button>
+        <button
+          type="button"
+          onClick={handleSubmit(() => {
+            const formData = watch();
+            const stored = JSON.parse(localStorage.getItem("userDetails")) || {};
+            const updated = { ...stored, ...formData };
+            localStorage.setItem("userDetails", JSON.stringify(updated));
+            alert("Data Saved!");
+          })}>
+          Save
+        </button>
+
+        <button
+          type="button"
+          onClick={handleSubmit(() => {
+            const formData = watch();
+            const stored = JSON.parse(localStorage.getItem("userDetails")) || {};
+            const updated = { ...stored, ...formData };
+            localStorage.setItem("userDetails", JSON.stringify(updated));
+            navigate("/upload-docs");
+          })}>
+          Next
+        </button>
+
+
       </div>
     </form>
   )

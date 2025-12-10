@@ -25,6 +25,7 @@ form fieldset legend{
 
 .form-grp .label-wrap{
     display: flex;
+    margin-bottom: 10px;
 }
 .form-grp .label-wrap sup{
     color: red;
@@ -64,12 +65,16 @@ form .form-grp select{
 .gender-form-grp .radio-grp{
     display: flex;
     align-items: center;
+    margin-right: 15px;
 }
-.gender-form-grp{
-    flex-direction: row !important;
+.gender-form-grp .radio-grp input[type="radio"]{
+    margin-right: 10px;
+}
+.radio-wrap{
+    display: flex;
 }
 .gender-form-grp label{
-    margin-right: 10px;
+    margin-bottom: 0;
 }
 .error {
     color: red;

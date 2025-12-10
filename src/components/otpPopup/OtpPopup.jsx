@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { sendOtp, verifyOtp } from "../../api/otp";
 import "../otpPopup/OtpPopup.css"
 
-const OtpPopup = ({ phone, sessionId, onSuccess, onClose }) => {
+const OtpPopup = ({ phone, sessionId, onSuccess, onClose, onSessionChange }) => {
   const [otp, setOtp] = useState("");
   const [minutes, setMinutes] = useState(1);
   const [seconds, setSeconds] = useState(59);
@@ -14,9 +14,10 @@ const OtpPopup = ({ phone, sessionId, onSuccess, onClose }) => {
       setOtp("");
       setSeconds(60); // restart timer
 
-      const data = await sendOtp(phone); // your sendOtp() API call
-      if (data?.Status === "Success") {
-        setNewSessionId(data.Details); 
+      const data = await sendOtp(phone); 
+      if (data.success) {
+        onSessionChange(data.sessionId); 
+        
       } else {
         setError("Failed to resend OTP. Try again.");
       }

@@ -22,6 +22,7 @@ const SignUp = () => {
           <OtpPopup
             phone={phone}
             sessionId={sessionId}
+            onSessionChange={(sid) => setSessionId(sid)} 
             onSuccess={() => {
               window.location.href = "/user-details";
             }}

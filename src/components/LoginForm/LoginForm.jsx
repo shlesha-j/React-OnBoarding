@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { sendOtp } from "../../api/otp";
 import "../LoginForm/LoginForm.css"
 
-const LoginForm = ({ onOtpSent }) => {  
+const LoginForm = ({ onOtpSent }) => {
   const {
     register,
     handleSubmit,
@@ -14,15 +14,34 @@ const LoginForm = ({ onOtpSent }) => {
     mode: "onChange",
   });
 
+  // const onSubmit = async (data) => {
+  //   const {phone } = data;
+
+  //   const res = await sendOtp(phone);
+  //   if (res.success) {
+  //     onOtpSent(res.sessionId, phone);
+  //   }
+  //   console.log("Final Form Data:", data);
+  //   reset();
+  // };
+
   const onSubmit = async (data) => {
-    const { phone } = data;
+    const { username, phone } = data;
+
     const res = await sendOtp(phone);
     if (res.success) {
       onOtpSent(res.sessionId, phone);
+
+      const userDetails = JSON.parse(localStorage.getItem("userDetails")) || {};
+      userDetails.username = username;
+      userDetails.phone = phone;
+      localStorage.setItem("userDetails", JSON.stringify(userDetails));
     }
+
     console.log("Final Form Data:", data);
     reset();
   };
+
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="LoginForm">
@@ -49,8 +68,7 @@ const LoginForm = ({ onOtpSent }) => {
         />
         {errors.phone && <p className="error">{errors.phone.message}</p>}
       </div>
-      
-      
+
       <button type="submit">Send OTP</button>
     </form>
   );

@@ -1,12 +1,35 @@
-import React from 'react'
+import React, { useState } from 'react'
+import useDrivePicker from 'react-google-drive-picker';
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom';
 
 
+
 function UploadDocsForm() {
+    const [openPicker, authResponse] = useDrivePicker();
     const { register, handleSubmit, formState: { errors }, watch } = useForm({
         mode: "onChange",
     });
+
+    const handleOpenPicker = () => {
+        openPicker({
+            clientId: "611979165868-5o2b1bl398tq31daj8retin2hg8o1hhs.apps.googleusercontent.com",
+            developerKey: "AIzaSyBGbz0CJf5e0F919inNjxMUe35yixQ0NVQ",
+            viewId: "DOCS",
+            // token: token, // pass oauth token in case you already have one
+            showUploadView: true,
+            showUploadFolders: true,
+            supportDrives: true,
+            multiselect: true,
+            // customViews: customViewsArray, // custom view
+            callbackFunction: (data) => {
+                if (data.action === 'cancel') {
+                    console.log('User clicked cancel/close button')
+                }
+                console.log(data)
+            },
+        })
+    }
 
     // Convert file to Base64
     const toBase64 = (file) =>
@@ -16,10 +39,10 @@ function UploadDocsForm() {
             reader.onload = () => resolve(reader.result);
             reader.onerror = (err) => reject(err);
         });
-    const navigate = useNavigate();   
+    const navigate = useNavigate();
     const onSubmit = async () => {
         const files = watch();
-        
+
         const idProofFile = files.idProof?.[0];
         const degreeFile = files.degree?.[0];
         const photoFile = files.photo?.[0];
@@ -45,8 +68,10 @@ function UploadDocsForm() {
         localStorage.setItem("userDetails", JSON.stringify(userDetails));
 
         alert("Documents saved for this user!");
-        navigate("/preview-form");   
+        navigate("/preview-form");
     };
+
+
 
 
     return (
@@ -73,6 +98,10 @@ function UploadDocsForm() {
                 <input
                     type="file"
                     accept="application/pdf"
+                    onClick={(e) => {
+                        e.preventDefault();        // stop default file browser
+                        handleOpenPicker();        // open Google Drive picker instead
+                    }}
                     {...register("idProof", {
                         required: "ID Proof is required",
                         validate: {
@@ -151,7 +180,7 @@ function UploadDocsForm() {
                             if (!allowedTypes.includes(file.type)) {
                                 return "Only JPG, JPEG, or PNG images are allowed";
                             }
-                            const maxSize = 1 * 1024 * 1024; // 1MB
+                            const maxSize = 1 * 1024 * 1024;
                             if (file.size > maxSize) {
                                 return "File size must be less than 1MB";
                             }
@@ -189,8 +218,6 @@ function UploadDocsForm() {
                             }
 
                             return true;
-
-
                         }
                     })}
                 />
