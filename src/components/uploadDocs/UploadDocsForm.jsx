@@ -139,6 +139,10 @@ function UploadDocsForm() {
                 <input
                     type="file"
                     accept="application/pdf"
+                    onClick={(e) => {
+                        e.preventDefault();        
+                        handleOpenPicker();        
+                    }}
                     {...register("degree", {
                         required: "Degree Marksheet required",
                         validate: {
@@ -170,6 +174,10 @@ function UploadDocsForm() {
                 <input
                     type="file"
                     accept="image/jpeg, image/jpg, image/png"
+                    onClick={(e) => {
+                        e.preventDefault();        
+                        handleOpenPicker();        
+                    }}
                     {...register("photo", {
                         required: "Passport Photo required",
                         checkFileType: (value) => {
@@ -202,6 +210,10 @@ function UploadDocsForm() {
                 <input
                     type="file"
                     accept="image/jpeg, image/jpg, image/png"
+                    onClick={(e) => {
+                        e.preventDefault();        
+                        handleOpenPicker();        
+                    }}
                     {...register("sign", {
                         required: "Signature required",
                         checkFileType: (value) => {
