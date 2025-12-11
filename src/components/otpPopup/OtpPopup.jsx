@@ -12,7 +12,7 @@ const OtpPopup = ({ phone, sessionId, onSuccess, onClose, onSessionChange }) => 
     try {
       setError("");
       setOtp("");
-      setSeconds(60); // restart timer
+      setSeconds(60); 
 
       const data = await sendOtp(phone); 
       if (data.success) {

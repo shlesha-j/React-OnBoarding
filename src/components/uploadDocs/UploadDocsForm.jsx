@@ -10,7 +10,7 @@ function UploadDocsForm() {
     const { register, handleSubmit, formState: { errors }, watch } = useForm({
         mode: "onChange",
     });
-
+    const navigate = useNavigate();
     const handleOpenPicker = () => {
         openPicker({
             clientId: "611979165868-5o2b1bl398tq31daj8retin2hg8o1hhs.apps.googleusercontent.com",
@@ -31,7 +31,7 @@ function UploadDocsForm() {
         })
     }
 
-    // Convert file to Base64
+    
     const toBase64 = (file) =>
         new Promise((resolve, reject) => {
             const reader = new FileReader();
@@ -39,7 +39,7 @@ function UploadDocsForm() {
             reader.onload = () => resolve(reader.result);
             reader.onerror = (err) => reject(err);
         });
-    const navigate = useNavigate();
+    
     const onSubmit = async () => {
         const files = watch();
 
@@ -99,8 +99,8 @@ function UploadDocsForm() {
                     type="file"
                     accept="application/pdf"
                     onClick={(e) => {
-                        e.preventDefault();        // stop default file browser
-                        handleOpenPicker();        // open Google Drive picker instead
+                        e.preventDefault();        
+                        handleOpenPicker();        
                     }}
                     {...register("idProof", {
                         required: "ID Proof is required",
@@ -150,7 +150,7 @@ function UploadDocsForm() {
                                     return "Only PDF files are allowed"
                                 }
 
-                                const maxSize = 2 * 1024 * 1024; //2MB
+                                const maxSize = 2 * 1024 * 1024; 
                                 if (file.size > maxSize) {
                                     return "File size must be less than 2MB"
                                 }
@@ -212,7 +212,7 @@ function UploadDocsForm() {
                             if (!allowedTypes.includes(file.type)) {
                                 return "Only JPG, JPEG, or PNG images are allowed";
                             }
-                            const maxSize = 500 * 1024; // 500kb
+                            const maxSize = 500 * 1024; 
                             if (file.size > maxSize) {
                                 return "File size must be less than 500KB";
                             }

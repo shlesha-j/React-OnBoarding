@@ -14,17 +14,6 @@ const LoginForm = ({ onOtpSent }) => {
     mode: "onChange",
   });
 
-  // const onSubmit = async (data) => {
-  //   const {phone } = data;
-
-  //   const res = await sendOtp(phone);
-  //   if (res.success) {
-  //     onOtpSent(res.sessionId, phone);
-  //   }
-  //   console.log("Final Form Data:", data);
-  //   reset();
-  // };
-
   const onSubmit = async (data) => {
     const { username, phone } = data;
 

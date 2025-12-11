@@ -5,20 +5,14 @@ import { replace, useNavigate } from 'react-router-dom';
 
 
 function UserDetailsForm() {
-  // const { register, handleSubmit, formState: { errors }, reset, watch } = useForm({ mode: "onChange", });
-
-  // const onSave = (data) => {
-  //   console.log("data saved")
-  // }
-  const navigate = useNavigate();
 
   const storedUserDetails = JSON.parse(localStorage.getItem("userDetails")) || {};
 
   const { register, handleSubmit, formState: { errors }, reset, watch } = useForm({
     mode: "onChange",
     defaultValues: {
-      mobile: storedUserDetails.phone || "",  // pre-fill mobile number only
-      name: "",       // keep blank
+      mobile: storedUserDetails.phone || "",  
+      name: "",       
       email: "",
       dob: "",
       gender: "",
@@ -32,13 +26,8 @@ function UserDetailsForm() {
     }
   });
 
+  const navigate = useNavigate();
 
-
-  // const onSave = () => {
-  //   const data = watch(); // get current form values
-  //   localStorage.setItem("userDetails", JSON.stringify(data));
-  //   alert("Data Saved!");
-  // };
   // const onNext = () => {
   //   const data = watch();
   //   localStorage.setItem("userDetails", JSON.stringify(data));
@@ -93,20 +82,6 @@ function UserDetailsForm() {
             <p className='error'>{errors.dob.message}</p>
           )}
         </div>
-        {/* <div className="form-grp gender-form-grp">
-          <div className="label-wrap">
-            <label>Gender</label>
-            <sup>*</sup>
-          </div>
-          <div className='radio-grp'>
-            <input type="radio" id='male' />
-            <label>Male</label>
-          </div>
-          <div className='radio-grp'>
-            <input type="radio" id='female' />
-            <label>Female</label>
-          </div>
-        </div> */}
         <div className="form-grp gender-form-grp">
           <div className="label-wrap">
             <label>Gender</label>
@@ -199,7 +174,7 @@ function UserDetailsForm() {
             {...register("relation", {
               required: "Relationship is required",
             })}
-            defaultValue="" // ensures placeholder shows initially
+            defaultValue="" 
           >
             <option value="" disabled>
               Select Relationship
