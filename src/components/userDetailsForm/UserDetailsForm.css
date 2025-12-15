@@ -2,7 +2,7 @@
 
 form{
     background-color: white;
-    width: 43.75rem;
+    width: 100%;
     border-radius: 1.25rem;
     padding: 2.5rem 1.25rem;
 }
@@ -79,6 +79,35 @@ form .form-grp select{
 .error {
     color: red;
 }
-.LoginForm{
-    width: 25rem;
+
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    /* Tablet styles */
+    form {
+        width: 100%;
+        /* max-width: 43.75rem; */
+        padding: 2rem 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Mobile styles */
+    form {
+        width: 100%;
+        padding: 1.5rem 0.75rem;
+    }
+    
+    form .form-grp {
+        margin-bottom: 1rem;
+    }
+    
+    input, select {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .gender-form-grp .radio-grp {
+        margin-right: 0.5rem;
+    }
 }

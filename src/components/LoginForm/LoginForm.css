@@ -8,3 +8,25 @@ input{
 input:focus{
     border-color: #506cff;
 }
+
+.LoginForm {
+    max-width: 25rem;
+    width: 100%;
+    margin: 0 auto;
+    background-color: white;
+    border-radius: 1.25rem;
+    padding: 2.5rem 1.25rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .LoginForm {
+        width: 100%;
+        max-width: 25rem;
+        padding: 1.5rem 1rem;
+    }
+    
+    input {
+        padding: 0.5rem 1rem;
+    }
+}

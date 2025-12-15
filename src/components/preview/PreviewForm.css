@@ -39,6 +39,7 @@ p{
 .row {
     display: flex;
     gap: 2.5rem;
+    margin-bottom: 40px;
 }
 
 .section p {
@@ -69,4 +70,12 @@ p{
 }
 .left-side {
     margin-right: 7.5rem;
+}
+
+@media (max-width: 768px) {
+    .row {
+        flex-direction: column;
+        gap: 20px;
+        margin-bottom: 20px;
+    }
 }
