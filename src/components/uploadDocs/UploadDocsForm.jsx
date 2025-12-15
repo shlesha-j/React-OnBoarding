@@ -227,57 +227,105 @@ function UploadDocsForm() {
     return (
         <form>
 
-            <div className="form-grp">
+            {/* <div className="form-grp">
                 <label>ID Proof *</label>
 
-                <button type="button" className="picker-btn" onClick={() => handleOpenPicker("idProof")}>
+                <button type='button' className="picker-btn" onClick={() => handleOpenPicker("idProof")}>
                     Select File
                 </button>
 
                 <span style={{ color: "black" }}>{files.idProof?.name || "No file selected"}</span>
 
                 {errors.idProof && <p className="error">{errors.idProof}</p>}
+            </div> */}
+            <div className="form-grp">
+                <div className="label-wrap">
+                    <label>ID Proof</label>
+                    <sup>*</sup>
+                </div>
+
+                <div
+                    className="upload-box"
+                    onClick={() => handleOpenPicker("idProof")}
+                >
+                    <div className="upload-icon">📤</div>
+                    <p className="upload-title">Upload ID Proof</p>
+                    <p className="upload-sub">Upload from Google Drive</p>
+                    <p className="upload-hint">PDF only • Max 2MB</p>
+                </div>
+
+                {files.idProof && (
+                    <p className="file-name">Selected: {files.idProof.name}</p>
+                )}
+
+                {errors.idProof && <p className="error">{errors.idProof}</p>}
             </div>
 
+
             <div className="form-grp">
-                <label>Degree Certificate *</label>
+                <div className="label-wrap">
+                    <label>Degree Certificate</label>
+                    <sup>*</sup>
+                </div>
+                <div
+                    className="upload-box"
+                    onClick={() => handleOpenPicker("degree")}
+                >
+                    <div className="upload-icon">📤</div>
+                    <p className="upload-title">Upload Degree Certificate</p>
+                    <p className="upload-sub">Upload from Google Drive</p>
+                    <p className="upload-hint">PDF only • Max 2MB</p>
+                </div>
 
-                <button type="button" className="picker-btn" onClick={() => handleOpenPicker("degree")}>
-                    Select File
-                </button>
-
-                <span style={{ color: "black" }}>
-                    {files.degree?.name || "No file selected"}
-                </span>
+                {files.degree && (
+                    <p className="file-name">Selected: {files.degree.name}</p>
+                )}
 
                 {errors.degree && <p className="error">{errors.degree}</p>}
             </div>
 
-
             <div className="form-grp">
-                <label>Photo *</label>
+                <div className='label-wrap'>
+                <label>Photo</label>
+                <sup>*</sup>
+                </div>
+                <div
+                    className="upload-box"
+                    onClick={() => handleOpenPicker("photo")}
+                >
+                    <div className="upload-icon">📷</div>
+                    <p className="upload-title">Upload Photo</p>
+                    <p className="upload-sub">Upload from Google Drive</p>
+                    <p className="upload-hint">JPG / PNG • Max 1MB</p>
+                </div>
 
-                <button type="button" className="picker-btn" onClick={() => handleOpenPicker("photo")}>
-                    Select File
-                </button>
-
-                <span style={{ color: "black" }}>
-                    {files.photo?.name || "No file selected"}
-                </span>
+                {files.photo && (
+                    <p className="file-name">Selected: {files.photo.name}</p>
+                )}
 
                 {errors.photo && <p className="error">{errors.photo}</p>}
             </div>
 
+
             <div className="form-grp">
-                <label>Signature *</label>
+                <div className="label-wrap">
+                <label>Signature</label>
+                 <sup>*</sup>
+                </div>
 
-                <button type="button" className="picker-btn" onClick={() => handleOpenPicker("sign")}>
-                    Select File
-                </button>
+                <div
+                    className="upload-box"
+                    onClick={() => handleOpenPicker("sign")}
+                >
+                    <div className="upload-icon">✍️</div>
+                    <p className="upload-title">Upload Signature</p>
+                    <p className="upload-sub">Upload from Google Drive</p>
+                    <p className="upload-hint">JPG / PNG • Max 500KB</p>
+                </div>
 
-                <span style={{ color: "black" }}>
-                    {files.sign?.name || "No file selected"}
-                </span>s
+                {files.sign && (
+                    <p className="file-name">Selected: {files.sign.name}</p>
+                )}
 
                 {errors.sign && <p className="error">{errors.sign}</p>}
             </div>

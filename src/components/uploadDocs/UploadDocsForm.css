@@ -1,3 +1,46 @@
 .picker-btn{
     width: 100%;
 }
+
+.upload-box {
+  border: 2px dashed #cbd5e1;
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: #fafafa;
+  width: 100%;
+}
+
+.upload-box:hover {
+  border-color: #2563eb;
+  background: #f0f6ff;
+}
+
+.upload-icon {
+  font-size: 28px;
+  margin-bottom: 6px;
+}
+
+.upload-title {
+  font-weight: 600;
+  margin: 0;
+}
+
+.upload-sub {
+  font-size: 13px;
+  color: #2563eb;
+  margin: 2px 0;
+}
+
+.upload-hint {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.file-name {
+  margin-top: 6px;
+  font-size: 13px;
+  color: #111827;
+}

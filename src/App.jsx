@@ -6,6 +6,7 @@ import UserDetails from './pages/UserDetails'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import UploadDocs from './pages/UploadDocs'
 import PreviewPage from './pages/PreviewPage'
+import SuccessPage from './pages/SuccessPage'
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
         <Route path="/user-details" element={<UserDetails />} />
         <Route path="/upload-docs" element={<UploadDocs />} />
         <Route path='/preview-form' element={<PreviewPage/>}/>
+        <Route path='/success-page' element={<SuccessPage/>}/>
       </Routes>
     </BrowserRouter>
     
