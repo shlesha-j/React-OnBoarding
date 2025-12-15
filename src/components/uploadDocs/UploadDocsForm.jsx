@@ -7,42 +7,109 @@ import "../uploadDocs/UploadDocsForm.css";
 
 function UploadDocsForm() {
     const [openPicker, authResponse] = useDrivePicker();
-    const [fileNames, setFileNames] = useState({
-        idProof: "",
-        degree: "",
-        photo: "",
-        sign: ""
+    const [files, setFiles] = useState({
+        idProof: null,
+        degree: null,
+        photo: null,
+        sign: null,
     });
 
-    const { register, handleSubmit, formState: { errors }, watch } = useForm({
-        mode: "onChange",
-    });
+    const [errors, setErrors] = useState({});
+
     const navigate = useNavigate();
 
-
-    const handleOpenPicker = (fieldName) => {
-    openPicker({
-        clientId: "611979165868-5o2b1bl398tq31daj8retin2hg8o1hhs.apps.googleusercontent.com",
-        developerKey: "AIzaSyBGbz0CJf5e0F919inNjxMUe35yixQ0NVQ",
-        viewId: "DOCS",
-        showUploadView: true,
-        showUploadFolders: true,
-        supportDrives: true,
-        multiselect: false,
-
-        callbackFunction: (data) => {
-            if (data.action === "picked") {
-                const file = data.docs[0];
-
-                // Update only that specific field
-                setFileNames(prev => ({
-                    ...prev,
-                    [fieldName]: file.name
-                }));
+    const fetchDriveImageAsBase64 = async (file) => {
+        const response = await fetch(
+            `https://www.googleapis.com/drive/v3/files/${file.id}?alt=media`,
+            {
+                headers: {
+                    Authorization: `Bearer ${authResponse.access_token}`,
+                },
             }
-        }
-    });
-};
+        );
+
+        const blob = await response.blob();
+
+        return new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result);
+            reader.readAsDataURL(blob);
+        });
+    };
+
+
+    const handleOpenPicker = (field) => {
+        openPicker({
+            clientId: "611979165868-5o2b1bl398tq31daj8retin2hg8o1hhs.apps.googleusercontent.com",
+            developerKey: "AIzaSyBGbz0CJf5e0F919inNjxMUe35yixQ0NVQ",
+            viewId: "DOCS",
+            showUploadView: true,
+            multiselect: false,
+
+            callbackFunction: (data) => {
+                if (data.action === "picked") {
+                    const file = data.docs[0];
+
+                    const configMap = {
+                        idProof: {
+                            types: ["application/pdf"],
+                            maxSize: 2 * 1024 * 1024,
+                            sizeLabel: "2MB",
+                            label: "PDF files",
+                        },
+                        degree: {
+                            types: ["application/pdf"],
+                            maxSize: 2 * 1024 * 1024,
+                            sizeLabel: "2MB",
+                            label: "PDF files",
+                        },
+                        photo: {
+                            types: ["image/jpeg", "image/png"],
+                            maxSize: 1 * 1024 * 1024,
+                            sizeLabel: "1MB",
+                            label: "JPG/PNG images",
+                        },
+                        sign: {
+                            types: ["image/jpeg", "image/png"],
+                            maxSize: 500 * 1024,
+                            sizeLabel: "500KB",
+                            label: "JPG/PNG images",
+                        },
+                    };
+
+                    const error = validateFile(file, configMap[field]);
+
+                    if (error) {
+                        setErrors(prev => ({ ...prev, [field]: error }));
+                        return;
+                    }
+
+                    setErrors(prev => ({ ...prev, [field]: null }));
+                    // IMAGE → convert to base64
+                    if (file.mimeType.startsWith("image/")) {
+                        fetchDriveImageAsBase64(file).then((base64) => {
+                            setFiles((prev) => ({
+                                ...prev,
+                                [field]: {
+                                    ...file,
+                                    base64, // 👈 STORE IMAGE DATA
+                                },
+                            }));
+                        });
+                    }
+                    // PDF → store metadata only
+                    else {
+                        setFiles((prev) => ({
+                            ...prev,
+                            [field]: file,
+                        }));
+                    }
+
+                }
+            },
+        });
+    };
+
 
 
     const toBase64 = (file) =>
@@ -53,216 +120,170 @@ function UploadDocsForm() {
             reader.onerror = (err) => reject(err);
         });
 
-    const onSubmit = async () => {
-        const files = watch();
+    // const onSubmit = async () => {
+    //     const files = watch();
 
-        const idProofFile = files.idProof?.[0];
-        const degreeFile = files.degree?.[0];
-        const photoFile = files.photo?.[0];
-        const signFile = files.sign?.[0];
+    //     const idProofFile = files.idProof?.[0];
+    //     const degreeFile = files.degree?.[0];
+    //     const photoFile = files.photo?.[0];
+    //     const signFile = files.sign?.[0];
 
-        const idProofB64 = idProofFile ? await toBase64(idProofFile) : null;
-        const degreeB64 = degreeFile ? await toBase64(degreeFile) : null;
-        const photoB64 = photoFile ? await toBase64(photoFile) : null;
-        const signB64 = signFile ? await toBase64(signFile) : null;
-
-
-        const userDetails = JSON.parse(localStorage.getItem("userDetails")) || {};
+    //     const idProofB64 = idProofFile ? await toBase64(idProofFile) : null;
+    //     const degreeB64 = degreeFile ? await toBase64(degreeFile) : null;
+    //     const photoB64 = photoFile ? await toBase64(photoFile) : null;
+    //     const signB64 = signFile ? await toBase64(signFile) : null;
 
 
-        userDetails.documents = {
-            idProof: idProofB64,
-            degree: degreeB64,
-            photo: photoB64,
-            sign: signB64,
-        };
+    //     const userDetails = JSON.parse(localStorage.getItem("userDetails")) || {};
 
 
+    //     userDetails.documents = {
+    //         idProof: idProofB64,
+    //         degree: degreeB64,
+    //         photo: photoB64,
+    //         sign: signB64,
+    //     };
+
+
+    //     localStorage.setItem("userDetails", JSON.stringify(userDetails));
+
+    //     alert("Documents saved for this user!");
+    //     navigate("/preview-form");
+    // };
+
+
+    // const onSubmit = () => {
+    //     const requiredFields = ["idProof", "degree", "photo", "sign"];
+    //     let hasError = false;
+
+    //     requiredFields.forEach(field => {
+    //         if (!files[field]) {
+    //             setErrors(prev => ({ ...prev, [field]: "File is required" }));
+    //             hasError = true;
+    //         }
+    //     });
+
+    //     if (hasError) return;
+
+    //     const userDetails = JSON.parse(localStorage.getItem("userDetails")) || {};
+
+    //     userDetails.documents = files;
+
+    //     localStorage.setItem("userDetails", JSON.stringify(userDetails));
+    //     navigate("/preview-form");
+    // };
+
+    const requiredFields = ["idProof", "degree", "photo", "sign"];
+
+    const onSubmit = () => {
+        let newErrors = {};
+        let hasError = false;
+
+        // 1️⃣ Validate required documents
+        requiredFields.forEach((field) => {
+            if (!files[field]) {
+                newErrors[field] = "File is required";
+                hasError = true;
+            }
+        });
+
+        if (hasError) {
+            setErrors(newErrors);
+            return;
+        }
+
+        // 2️⃣ Get existing user details
+        const userDetails =
+            JSON.parse(localStorage.getItem("userDetails")) || {};
+
+        // 3️⃣ STORE documents dynamically 👇 (THIS is where reduce goes)
+        userDetails.documents = requiredFields.reduce((acc, field) => {
+            acc[field] = files[field];
+            return acc;
+        }, {});
+
+        // 4️⃣ Save + navigate
         localStorage.setItem("userDetails", JSON.stringify(userDetails));
-
-        alert("Documents saved for this user!");
         navigate("/preview-form");
     };
 
 
 
+    const validateFile = (file, config) => {
+        if (!file) return "File is required";
+
+        if (!config.types.includes(file.mimeType)) {
+            return `Only ${config.label} allowed`;
+        }
+
+        if (file.sizeBytes > config.maxSize) {
+            return `File size must be less than ${config.sizeLabel}`;
+        }
+
+        return null;
+    };
+
 
     return (
         <form>
-            <div className="form-grp">
-                <div className="label-wrap">
-                    <label>ID Proof</label>
-                    <sup>*</sup>
-                </div>
 
-                {/* Button to open Google Drive */}
-                <button
-                    type="button"
-                    onClick={() => handleOpenPicker("idProof")}
-                    className="picker-btn"
-                >
+            <div className="form-grp">
+                <label>ID Proof *</label>
+
+                <button type="button" className="picker-btn" onClick={() => handleOpenPicker("idProof")}>
                     Select File
                 </button>
 
-                {/* Display selected filename */}
-                <span style={{ color: "black" }}>{fileNames.idProof || "No file selected"}</span>
+                <span style={{ color: "black" }}>{files.idProof?.name || "No file selected"}</span>
 
-                {/* Hidden actual file input for react-hook-form */}
-                <input
-                    type="file"
-                    accept="application/pdf"
-                    style={{ display: "none" }}
-                    {...register("idProof", {
-                        required: "ID Proof is required",
-                        validate: {
-                            checkFileType: (value) => {
-                                const file = value?.[0];
-                                if (!file) return "ID Proof is required";
+                {errors.idProof && <p className="error">{errors.idProof}</p>}
+            </div>
 
-                                if (file.type !== "application/pdf") {
-                                    return "Only PDF files are allowed";
-                                }
+            <div className="form-grp">
+                <label>Degree Certificate *</label>
 
-                                const maxSize = 2 * 1024 * 1024;
-                                if (file.size > maxSize) {
-                                    return "File size must be less than 2MB";
-                                }
+                <button type="button" className="picker-btn" onClick={() => handleOpenPicker("degree")}>
+                    Select File
+                </button>
 
-                                return true;
-                            }
-                        }
-                    })}
-                />
+                <span style={{ color: "black" }}>
+                    {files.degree?.name || "No file selected"}
+                </span>
 
-                {errors.idProof && <p className="error">{errors.idProof.message}</p>}
+                {errors.degree && <p className="error">{errors.degree}</p>}
             </div>
 
 
             <div className="form-grp">
-                <div className="label-wrap">
-                    <label>Degree Marksheet</label>
-                    <sup>*</sup>
-                </div>
-                <button
-                    type="button"
-                    onClick={() => handleOpenPicker("degree")}
-                    className="picker-btn"
-                >
+                <label>Photo *</label>
+
+                <button type="button" className="picker-btn" onClick={() => handleOpenPicker("photo")}>
                     Select File
                 </button>
 
-                {/* Display selected filename */}
-                <span style={{ color: "black" }}>{fileNames.degree || "No file selected"}</span>
-                <input
-                    type="file"
-                    accept="application/pdf"
-                    style={{ display: "none" }}
-                    {...register("degree", {
-                        required: "Degree Marksheet required",
-                        validate: {
-                            checkFileType: (value) => {
-                                const file = value[0];
-                                if (!file) return "Degree Marksheet required";
+                <span style={{ color: "black" }}>
+                    {files.photo?.name || "No file selected"}
+                </span>
 
-                                if (file.type !== "application/pdf") {
-                                    return "Only PDF files are allowed"
-                                }
-
-                                const maxSize = 2 * 1024 * 1024;
-                                if (file.size > maxSize) {
-                                    return "File size must be less than 2MB"
-                                }
-                                return true;
-                            }
-                        }
-                    })}
-                />
-                {errors.degree && <p className="error">{errors.degree.message}</p>}
+                {errors.photo && <p className="error">{errors.photo}</p>}
             </div>
 
             <div className="form-grp">
-                <div className="label-wrap">
-                    <label>Photo</label>
-                    <sup>*</sup>
-                </div>
-                <button
-                    type="button"
-                    onClick={() => handleOpenPicker("photo")}
-                    className="picker-btn"
-                >
+                <label>Signature *</label>
+
+                <button type="button" className="picker-btn" onClick={() => handleOpenPicker("sign")}>
                     Select File
                 </button>
 
-                {/* Display selected filename */}
-                <span style={{ color: "black" }}>{fileNames.photo || "No file selected"}</span>
-                <input
-                    type="file"
-                    accept="image/jpeg, image/jpg, image/png"
-                    style={{ display: "none" }}
-                    {...register("photo", {
-                        required: "Passport Photo required",
-                        checkFileType: (value) => {
-                            const file = value[0];
-                            if (!file) return "Passport photo is required";
+                <span style={{ color: "black" }}>
+                    {files.sign?.name || "No file selected"}
+                </span>s
 
-                            const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
-                            if (!allowedTypes.includes(file.type)) {
-                                return "Only JPG, JPEG, or PNG images are allowed";
-                            }
-                            const maxSize = 1 * 1024 * 1024;
-                            if (file.size > maxSize) {
-                                return "File size must be less than 1MB";
-                            }
-
-                            return true;
-                        }
-                    })}
-                />
-                {errors.photo && <p className="error">{errors.photo.message}</p>}
+                {errors.sign && <p className="error">{errors.sign}</p>}
             </div>
 
-            <div className="form-grp">
-                <div className="label-wrap">
-                    <label>Signature</label>
-                    <sup>*</sup>
-                </div>
-                <button
-                    type="button"
-                    onClick={() => handleOpenPicker("sign")}
-                    className="picker-btn"
-                >
-                    Select File
-                </button>
 
-                {/* Display selected filename */}
-                <span style={{ color: "black" }}>{fileNames.sign || "No file selected"}</span>
-                <input
-                    type="file"
-                    accept="image/jpeg, image/jpg, image/png"
-                    style={{ display: "none" }}
-                    {...register("sign", {
-                        required: "Signature required",
-                        checkFileType: (value) => {
-                            const file = value[0];
-                            if (!file) return "Passport photo is required";
-
-                            const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
-                            if (!allowedTypes.includes(file.type)) {
-                                return "Only JPG, JPEG, or PNG images are allowed";
-                            }
-                            const maxSize = 500 * 1024;
-                            if (file.size > maxSize) {
-                                return "File size must be less than 500KB";
-                            }
-
-                            return true;
-                        }
-                    })}
-                />
-                {errors.sign && <p className="error">{errors.sign.message}</p>}
-            </div>
-
-            <button type="button" onClick={handleSubmit(onSubmit)}>
+            <button type="button" onClick={onSubmit}>
                 Submit
             </button>
         </form>

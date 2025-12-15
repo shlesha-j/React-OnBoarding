@@ -1,12 +1,47 @@
 import React from "react";
 import "../preview/PreviewForm.css"
 function PreviewForm({ users = {} }) {
+    const docs = users.documents || {};
+
+    const renderDoc = (file) => {
+        if (!file || !file.id) return <p>No file</p>;
+
+        // PDF preview
+        if (file.mimeType === "application/pdf") {
+            return (
+                <iframe
+                    src={`https://drive.google.com/file/d/${file.id}/preview`}
+                    width="300"
+                    height="300"
+                    title={file.name}
+                />
+            );
+        }
+
+        // Image preview (PNG / JPG / JPEG)
+        if (file.base64) {
+            return (
+                <img
+                    src={file.base64}
+                    alt={file.name}
+                    className="preview-img"
+                    width="100"
+                    height="100"
+                />
+            );
+        }
+
+
+        return <p>Preview not available</p>;
+    };
+
+
     return (
-        
+
         <div className="preview-form-wrap">
             <h3 className="form-title">On Boarding Form</h3>
 
-            
+
             <div className="section">
                 <h4>Personal Details</h4>
                 <div className="personal-detail-wrap">
@@ -25,30 +60,18 @@ function PreviewForm({ users = {} }) {
                     <div className="right side">
                         <div className="doc-block">
                             <p><strong>Photo:</strong></p>
-                            {users.documents?.photo && (
-                                <img
-                                    src={users.documents.photo}
-                                    alt="User"
-                                    className="user-photo"
-                                />
-                            )}
+                            {renderDoc(docs.photo, "img")}
                         </div>
 
                         <div className="doc-block">
                             <p><strong>Signature:</strong></p>
-                            {users.documents?.sign && (
-                                <img
-                                    src={users.documents.sign}
-                                    alt="Signature"
-                                    className="user-sign"
-                                />
-                            )}
+                            {renderDoc(docs.sign, "img")}
                         </div>
                     </div>
                 </div>
             </div>
 
-            
+
             <div className="section">
                 <h4>Nominee Details</h4>
                 <div className="row">
@@ -58,7 +81,7 @@ function PreviewForm({ users = {} }) {
                 <p><strong>Mobile:</strong> {users.NomMobile}</p>
             </div>
 
-            
+
             <div className="section">
                 <h4>Bank Details</h4>
                 <div className="row">
@@ -68,8 +91,8 @@ function PreviewForm({ users = {} }) {
                 <p><strong>IFSC:</strong> {users.ifsc}</p>
             </div>
 
-            
-            <div className="section">
+
+            {/* <div className="section">
                 <h4>Uploaded Documents</h4>
 
                 <div className="doc-block">
@@ -86,7 +109,7 @@ function PreviewForm({ users = {} }) {
 
                 <div className="doc-block">
                     <p><strong>Degree:</strong></p>
-                    {users.documents?.degree && (  
+                    {users.documents?.degree && (
                         <embed
                             src={users.documents.degree}
                             type="application/pdf"
@@ -95,7 +118,32 @@ function PreviewForm({ users = {} }) {
                         />
                     )}
                 </div>
+            </div> */}
+
+            <div className="section">
+                <h4>Uploaded Documents</h4>
+
+                <div className="doc-block">
+                    <p><strong>ID Proof:</strong></p>
+                    {renderDoc(docs.idProof)}
+                </div>
+
+                <div className="doc-block">
+                    <p><strong>Degree:</strong></p>
+                    {renderDoc(docs.degree)}
+                </div>
+
+                <div className="doc-block">
+                    <p><strong>Photo:</strong></p>
+                    {renderDoc(docs.photo)}
+                </div>
+
+                <div className="doc-block">
+                    <p><strong>Signature:</strong></p>
+                    {renderDoc(docs.sign)}
+                </div>
             </div>
+
         </div>
     );
 }
