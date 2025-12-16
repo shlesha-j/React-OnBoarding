@@ -78,4 +78,16 @@ p{
         gap: 20px;
         margin-bottom: 20px;
     }
+    .personal-detail-wrap{
+        flex-direction: column;
+    }
+    .left-side{
+        margin-right: 0;
+    }
+    .preview-form-wrap{
+        padding: 0.625rem;
+    }
+    .doc-block iframe{
+        width: 100%
+    }
 }

@@ -273,7 +273,7 @@ function UserDetailsForm() {
         </div>
       </fieldset>
       <div className="btn-grp">
-        <button
+        {/* <button
           type="button"
           onClick={handleSubmit(() => {
             const formData = watch();
@@ -283,7 +283,7 @@ function UserDetailsForm() {
             alert("Data Saved!");
           })}>
           Save
-        </button>
+        </button> */}
 
         <button
           type="button"

@@ -46,7 +46,7 @@ input:focus{
     font-size: 0.875rem;
     font-weight: 400;
     color: #2d1d35;
-    margin-right: 5.125rem;
+    margin-right: 50px;
 }
 .countdown-text > p > span{
     font-weight: 700;
@@ -84,6 +84,12 @@ input:focus{
   top: 0.75rem;
   right: 0.75rem;
   background: transparent;
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
   border: none;
   font-size: 1.375rem;
   font-weight: bold;
@@ -94,13 +100,13 @@ input:focus{
 
 .close-btn:hover {
   color: #000;
-  transform: scale(1.2);
+  /* transform: scale(1.2); */
 }
 
 
 .btn-grp{
-    display: flex;
+    /* display: flex;
     justify-content: space-between;
-    width: 18.75rem;
+    width: 18.75rem; */
     margin: 0 auto;
 }
