@@ -1,6 +1,6 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import "../userDetailsForm/userDetailsForm.css"
+import "../userDetailsForm/UserDetailsForm.css"
 import { replace, useNavigate } from 'react-router-dom';
 
 
