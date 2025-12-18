@@ -63,6 +63,7 @@ button {
   transition: all ease .6s;
   cursor: pointer;
   transition: border-color 0.25s;
+  color: white;
 }
 
 button:hover {
