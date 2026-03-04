@@ -1,16 +1,56 @@
-# React + Vite
+# 🚀 OnBoarding Application (React)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+🔗 **Live Demo:** https://rad-croquembouche-8b3811.netlify.app/
 
-Currently, two official plugins are available:
+A complete multi-step **User Onboarding Application** built using React.  
+This project includes login, OTP verification, form validation, document upload, preview, and routing.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The app simulates a real-world onboarding flow used in fintech / HR / KYC systems.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## ✨ Features
 
-## Expanding the ESLint configuration
+✅ Login with Phone Number  
+✅ OTP Verification using 2Factor API  
+✅ Multi-step form submission  
+✅ Form validation using React Hook Form (`useForm`)  
+✅ Document upload via Google Drive Picker  
+✅ Preview before final submission  
+✅ Clean and structured UI  
+✅ Deployed on Netlify  
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🛠️ Tech Stack
+
+- ⚛️ React.js
+- 🧭 React Router
+- 📝 React Hook Form (`useForm`)
+- 🔐 2Factor OTP API
+- ☁️ Google Drive Picker (`useDrivePicker`)
+- 📡 Fetch API
+- 🎨 CSS
+- 🌐 Netlify (Deployment)
+
+---
+
+## 🔐 OTP Integration (2Factor API)
+
+The application integrates OTP verification using **2Factor API**.
+
+📝 Form Validation (React Hook Form)
+
+- Used useForm() for handling forms
+- Built-in validation rules
+- Error messages displayed dynamically
+- Improved performance (minimal re-renders)
+
+🔄 Application Flow
+
+1️⃣ Login (Enter phone number)
+2️⃣ Receive OTP
+3️⃣ Verify OTP
+4️⃣ Fill personal details form
+5️⃣ Upload documents
+6️⃣ Preview submitted data
